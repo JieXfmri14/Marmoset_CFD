@@ -1,6 +1,6 @@
 # Cellular-functional decoupling in marmosets
 
-This repository contains code that was created to conduct the main analyses described in the paper **"Decomposing Cortical Activity through Neuronal Tracing Connectome-eigenmodes in Marmosets" **.
+This repository contains code created to conduct the main analyses described in the paper **Decomposing Cortical Activity through Neuronal Tracing Connectome-eigenmodes in Marmosets**.
 
 Uses an eigenmode-based analysis to study how neuronal tracing connectome (cellular connectome, CC) eigenmodes constrain cortical activity observed in BOLD-fMRI data. 
 
