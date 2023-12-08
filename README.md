@@ -8,7 +8,7 @@ Uses an eigenmode-based analysis to study how neuronal tracing connectome (cellu
 
 Download the repository and you're good to go. Read the comments and documentation within each code for usage guidance.
 
-*MATLAB* (version R2018b: The MathWorks, Inc.) was used to write the code.
+*MATLAB* (version R2018b: The MathWorks, Inc.) was used to write the code. The toolbox gspbox (please download gspbox from here: [https://www.fil.ion.ucl.ac.uk/spm/software/download/spmreg.php](https://github.com/epfl-lts2/gspbox) and set it under the known Matlab paths with Matlab --> Set path --> Add folder with subfolders).
 
 Some of the MATLAB-based scripts depend on packages developed by others. Copies of these packages have been stored in the `functions_matlab/` folder to ensure version compatibility. 
 
