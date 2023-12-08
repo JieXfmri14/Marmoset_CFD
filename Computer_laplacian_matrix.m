@@ -16,7 +16,8 @@ else
     P = verify_stron_con(W);
     
     % % =========================================================================
-    % %  (1) Method 1: https://epfl-lts2.github.io/gspbox-html/doc/utils/gsp_create_laplacian.html  
+    % %  (1) Method 1: https://epfl-lts2.github.io/gspbox-html/doc/utils/gsp_create_laplacian.html, 
+    % %   you can download "gspbox-0.75" toolbox, https://github.com/epfl-lts2/gspbox
     % % =========================================================================
 %     G = gsp_graph(W);
 %     G = gsp_create_laplacian(G, 'chung');
