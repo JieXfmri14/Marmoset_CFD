@@ -89,4 +89,4 @@ end
 % % =========================================================================
 % % Generate 1000 random Bold-signal further calculate reconstruction accuracy
 % % =========================================================================
-[SC_signal_ratio, SC_signal_FC_r]= CC_permuted_signals(U,zX_RS,null_graph);
+[SC_signal_ratio, SC_signal_FC_r]= CC_moran_signals(U,zX_RS,null_graph);
