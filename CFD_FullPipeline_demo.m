@@ -12,9 +12,9 @@ addpath(genpath(strcat(mypath,'functions_matlab')))
 [X_RS,zX_RS,Vlow,Vhigh]= find_filter_cut_off(mypath,U);
 
 %% Step2: the accuracy of the reconstruction the marmoset activity
-[CC_recon_act_marmoset,CC_recon_FC_marmoset]= CC_recon_marmoset_activity(W,zX_RS,U);
+[CC_recon_act_marmoset,CC_recon_FC_marmoset]= CC_recon_marmoset_activity(W,X_RS,U);
 
-%% Step3: analyze graph signal¡ªfilted low- and high-frequency components
+%% Step3: analyze graph signalÂ¡Âªfilted low- and high-frequency components
 [N_low,N_high,mean_low,mean_high] = GSanalysis(zX_RS,Vhigh,Vlow,U);
 
 %% Step4: system permutation test
