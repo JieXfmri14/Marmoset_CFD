@@ -9,11 +9,20 @@ X_RS = X_RS.Mar_RS;
 nsubjs_RS=size(X_RS,3);
 n_ROI = size(U,2);  
 
-% Normalized fMRI timecourses
-% zX_RS=zscore(X_RS,0,2);
-% dmean mean centering
-mean_data = mean(X_RS,2);
-zX_RS = X_RS - mean_data;       
+%% the mean, std and energy distribution 
+%=====================================================================
+% If all regions have a similar amplitude (or at least std dev), then no rescaling is needed and no bias is introduced. 
+%====================================================================
+for sub =1:nsubjs_RS
+    for i =1:n_ROI
+        mu(i,sub) = mean(X_RS(i,:,sub),2);
+        sigma(i,sub) = std(X_RS(i,:,sub),0,2);
+        energy(i,sub) = norm(X_RS(i,:,sub));
+    end
+end
+
+% Normalized fMRI timecourses (If all regions have similar amplitude, no need for normalization)
+zX_RS=zscore(X_RS,0,2);
 
 % Average energy spectral density of rs-fMRI data projected on the CC eigenmode
 clear X_hat_L  
