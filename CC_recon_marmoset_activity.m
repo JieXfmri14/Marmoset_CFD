@@ -1,10 +1,11 @@
-function [CC_recon_ratio,CC_recon_FC_r]= CC_recon_marmoset_activity(W,zX_RS,U)
+function [CC_recon_ratio,CC_recon_FC_r]= CC_recon_marmoset_activity(W,X_RS,U)
 % (1) assess CC eigenmodes explain brain activity in marmosets
 % (2) compare the accuracy of CC eigenmodes against SC eigenmodes
 
 % set null model
 null_graph = 1000;
 
+zX_RS = X_RS;
 % % =========================================================================
 % %  (1) Calculate reconstruction accuracy using 1 to num_modes eigenmodes    
 % % =========================================================================
@@ -72,7 +73,7 @@ xlswrite('Result/reconstruct_marmoset_activity/Marmoset_CC_recon_Accuracy_AUC.xl
 
 %% null model
 % % =========================================================================
-% %  1) Generate 1000 random digraphs (degree-preserving surrogate connectoms) further calculate reconstruction accuracy
+% %  1) Generate 1000 random digraphs (degree-preserving surrogate connectomes) further calculate reconstruction accuracy
 % % =========================================================================
 [CC_degree_ratio, CC_degree_FC_r]= CC_rewired_digraphs(W,zX_RS,null_graph);
 
@@ -85,9 +86,9 @@ end
 xlswrite('Result/reconstruct_marmoset_activity/Marmoset_CC_recon_null_degree.xlsx',data,strcat('A2:C',num2str(num_modes*null_graph+1)))
 
 % % =========================================================================
-% % 2) Generate 1000 permuted signals across regions further calculate reconstruction accuracy
+% % 2) Generate 1000 Moran surrogate signals further calculate reconstruction accuracy
 % % =========================================================================
-[CC_signal_ratio, CC_signal_FC_r]= CC_permuted_signals(U,zX_RS,null_graph);
+[CC_signal_ratio, CC_signal_FC_r]= CC_moran_signals(U,zX_RS,null_graph);
 % save data for R visual
 for i = 1: num_modes
     data(1+null_graph*(i-1):null_graph*i,1) = i;   

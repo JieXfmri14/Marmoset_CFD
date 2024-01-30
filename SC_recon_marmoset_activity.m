@@ -87,6 +87,6 @@ end
 [SC_degree_ratio, SC_degree_FC_r]= SC_rewired_undigraphs(SC,zX_RS,null_graph);
 
 % % =========================================================================
-% % Generate 1000 random Bold-signal further calculate reconstruction accuracy
+% % Generate 1000 Moran surrogate signals further calculate reconstruction accuracy
 % % =========================================================================
-[SC_signal_ratio, SC_signal_FC_r]= CC_permuted_signals(U,zX_RS,null_graph);
+[SC_signal_ratio, SC_signal_FC_r]= CC_moran_signals(U,zX_RS,null_graph);

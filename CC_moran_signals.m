@@ -1,7 +1,7 @@
-function [null_signal_energy, null_signal_recon_FC_r]= CC_permuted_signals(U,signals,null_graph)
+function [null_signal_energy, null_signal_recon_FC_r]= CC_moran_signals(U,signals,null_graph)
 
 % =========================================================================
-%  Generate 1000 permuted functional activity by randomly permuting 
+%  Generate 1000 permuted functional activity by Moran_randomization
 %  the raw rs-fMRI time series across brain regions further calculate reconstruction accuracy
 % =========================================================================
 n_ROI = size(U,1);
@@ -9,39 +9,49 @@ num_modes = n_ROI;
 time_point = size(signals,2);
 nsubjs_RS = size(signals,3);
 
-X_all = zeros(num_modes,n_ROI,time_point,nsubjs_RS);
+% X_all = zeros(num_modes,n_ROI,time_point,nsubjs_RS);
 N_all = zeros(num_modes,n_ROI,nsubjs_RS);
 null_signal_energy = zeros(null_graph,num_modes);
 null_signal_recon_FC_r = zeros(null_graph,num_modes);
 recon_FC_p = zeros(null_graph,num_modes);
 null_ID = zeros(null_graph,n_ROI);
 
+%A matrix denoting distance between features
+distance = load('Data/marmoset_distance_matrix.mat');
+MEM = compute_mem(distance.matrix_distance55);
+
+signal_MSR = zeros(n_ROI,time_point,null_graph,nsubjs_RS);
+for s=1:nsubjs_RS 
+    signal_MSR(:,:,:,s) = moran_randomization(signals(:,:,s),MEM,null_graph, ...
+    'procedure','singleton','joint',true,'random_state',0);
+end
+
 for null = 1:null_graph
     null
-    permID = randperm(n_ROI,n_ROI);
-    zX_RS = signals(permID',:,:);
-    null_ID(null,:)  = permID';   
-
+    
+    zX_RS = signal_MSR(:,:,null,:);
+    zX_RS = squeeze(zX_RS(:,:,1,:));
+       
     for mode= 1:num_modes
-        for s=1:nsubjs_RS        
-            X_hat(:,:,s)=U'*zX_RS(:,:,s); 
+        for s=1:nsubjs_RS  
+            MSR_RS = zX_RS(:,:,s);
+            MSR_RS(:, any(isnan(MSR_RS))) = [];
+           
+            X_hat=U'*MSR_RS; 
            %% recon activity
             M=zeros(size(U));
             M(:,1:mode)=U(:,1:mode);   
-            X_all(mode,:,:,s)=M*X_hat(:,:,s);  
+            X_all=M*X_hat;  
             
            %% FC of empirical signals
-            FCpacereal(:,:,s)=corr(zX_RS(:,:,s)');
+            FCpacereal(:,:,s)=corr(MSR_RS');
             clear temp
-            temp(:,:,s) = X_all(mode,:,:,s);
-            recon_FC(mode,:,:,s)=corr(temp(:,:,s)'); 
+            recon_FC(mode,:,:,s)=corr(X_all'); 
 
            %% norms of reconstructed BOLD-fMRI
-            for r=1:n_ROI
-                temp = X_all(mode,r,:,s);
-                recon_signal_per = reshape(temp,time_point,1);
-                N_all(mode,r,s)=norm(recon_signal_per);   
-                signal(r,s)  = norm(zX_RS(r,:,s));   
+           for r=1:n_ROI
+                N_all(mode,r,s)=norm(X_all(r,:));   
+                signal(r,s)  = norm(MSR_RS(r,:));   
             end
         end
         
@@ -60,7 +70,7 @@ for null = 1:null_graph
     acooss_sub = mean(signal,2);   
     real_energy = mean(acooss_sub);  
         
-    null_signal_energy(null,:) = recon_signal_all_null/real_energy;  
+    null_signal_energy(null,:) = recon_signal_all_null/real_energy;
 end
 
 
