@@ -46,10 +46,9 @@ while AUC<AUCTOT/2
     i=i+1;
 end
 
+% split CC eigenmodes in low/high frequency
 NN=i-1          
 NNL=n_ROI-NN;   
-
-% split CC eigenmodes in low/high frequency
 Vlow=zeros(size(U));
 Vhigh=zeros(size(U));
 Vlow(:,1:NN)=U(:,1:NN);                 
@@ -64,7 +63,7 @@ Vhigh(:,NN+1:end)=U(:,NN+1:end);
 % Vhigh=zeros(size(U));
 % KL = 10;
 % KH = 35;
-% Vlow(:,1:KL)=U(:,1:KL);                      % low-frequency eigenmodes
-% Vhigh(:,end-KH+1:end)=U(:,end-KH+1:end);     % high-frequency eigenmodes
+% Vlow(:,1:KL)=U(:,1:KL);                      
+% Vhigh(:,end-KH+1:end)=U(:,end-KH+1:end);     
 
 end
