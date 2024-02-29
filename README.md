@@ -26,7 +26,7 @@ The following analyses were carried out using open-source packages:
 2. The code for spatial autocorrelation-preserving surrogate brain maps can be implemented through the brainSMASH toolbox (https://github.com/murraylab/brainsmash) [2].
 3. The code for gradient analysis and the Moran spectral randomization can be performed via BrainSpace (http://github.com/MICA-MNI/BrainSpace) [3].
 4. The marmoset brain surfaces are presented using "plot_flatmap", available at https://github.com/netneurolab/marmoset_connectome [4].
-5. The brain surfaces were visualized using Connectome Workbench (v1.5.0, https://www.humanconnectome.org/software/ connectome-workbench) [5]. 
+5. The brain surfaces were visualized using Connectome Workbench (v1.5.0, https://www.humanconnectome.org/software/connectome-workbench) [5]. 
 
 ## References
 1. Rubinov, M., & Sporns, O. Complex network measures of brain connectivity: uses and interpretations. NeuroImage 52, 1059-1069 (2010).
