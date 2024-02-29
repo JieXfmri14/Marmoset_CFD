@@ -1,0 +1,1 @@
+This folder is used to store results that generalize marmoset-derived eigenmodes to the human brain.
