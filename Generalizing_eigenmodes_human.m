@@ -1,8 +1,5 @@
-function [recon_ratio,recon_FC_r]= Generalizing_eigenmodes_human(mypath)
+function [recon_ratio,recon_FC_r]= Generalizing_eigenmodes_human(mypath,n_null)
 % The CC matrix from the homologous brain regions was used to reconstruct the human Bold-fMRI
-
-% set null model
-null_graph = 10;
 
 %% load homology CC matrix and HCP Bold-fMRI
 % homology CC matrix
@@ -108,38 +105,38 @@ xlswrite('Results/generalizing_CC_human/Human_homology_CC_recon_Accuracy.xlsx',o
 % =========================================================================
 % (1)  Generate 1000 random digraphs (degree-preserving surrogate connectoms) further calculate reconstruction accuracy
 % =========================================================================
-[rewired_ratio, rewired_FC_r] = homology_CC_rewired_digraphs_Human(W,zX_RS,RX_RS,null_graph)
+[rewired_ratio, rewired_FC_r] = homology_CC_rewired_digraphs_Human(W,zX_RS,RX_RS,n_null)
 
 % save data for R visual
 for i = 1: n_modes
-    data(1+null_graph*(i-1):null_graph*i,1) = i;   
-    data(1+null_graph*(i-1):null_graph*i,2) = rewired_ratio(:,i);  
-    data(1+null_graph*(i-1):null_graph*i,3) = rewired_FC_r(:,i);  
+    data(1+n_null*(i-1):n_null*i,1) = i;   
+    data(1+n_null*(i-1):n_null*i,2) = rewired_ratio(:,i);  
+    data(1+n_null*(i-1):n_null*i,3) = rewired_FC_r(:,i);  
 end
-xlswrite('Results/generalizing_CC_human/Human_CC_recon_null_rewired.xlsx',data,strcat('A2:C',num2str(n_modes*null_graph+1)))
+xlswrite('Results/generalizing_CC_human/Human_CC_recon_null_rewired.xlsx',data,strcat('A2:C',num2str(n_modes*n_null+1)))
 
 % =========================================================================
 % (2)  Generate 1000 non-homology regions' signals
 % =========================================================================
-[null_hom_ratio, null_hom_FC_r] = homology_non_signals_Human(U,zX_RS_nonhomology,RX_RS_nonhomology,null_graph)
+[null_hom_ratio, null_hom_FC_r] = homology_non_signals_Human(U,zX_RS_nonhomology,RX_RS_nonhomology,n_null)
 
 % save data for R visual
 for i = 1: n_modes
-    data(1+null_graph*(i-1):null_graph*i,1) = i;   
-    data(1+null_graph*(i-1):null_graph*i,2) = null_hom_ratio(:,i);  
-    data(1+null_graph*(i-1):null_graph*i,3) = null_hom_FC_r(:,i);  
+    data(1+n_null*(i-1):n_null*i,1) = i;   
+    data(1+n_null*(i-1):n_null*i,2) = null_hom_ratio(:,i);  
+    data(1+n_null*(i-1):n_null*i,3) = null_hom_FC_r(:,i);  
 end
-xlswrite('Results/generalizing_CC_human/Human_CC_recon_null_nonhomology.xlsx',data,strcat('A2:C',num2str(n_modes*null_graph+1)))
+xlswrite('Results/generalizing_CC_human/Human_CC_recon_null_nonhomology.xlsx',data,strcat('A2:C',num2str(n_modes*n_null+1)))
 
 % =========================================================================
 % (3)  Calculating p-value
 % =========================================================================
 for i =1:n_modes
-    P_rewired_ratio(i) = sum(rewired_ratio(:,i)>recon_ratio(i))/null_graph;
-    P_rewired_FC(i) = sum(rewired_FC_r(:,i)> recon_FC_r(i))/null_graph;
+    P_rewired_ratio(i) = sum(rewired_ratio(:,i)>recon_ratio(i))/n_null;
+    P_rewired_FC(i) = sum(rewired_FC_r(:,i)> recon_FC_r(i))/n_null;
     
-    P_nohomology_ratio(i) = sum(null_hom_ratio(:,i)>recon_ratio(i))/null_graph;
-    P_nohomology_FC(i) = sum(null_hom_FC_r(:,i)> recon_FC_r(i))/ null_graph;
+    P_nohomology_ratio(i) = sum(null_hom_ratio(:,i)>recon_ratio(i))/n_null;
+    P_nohomology_FC(i) = sum(null_hom_FC_r(:,i)> recon_FC_r(i))/ n_null;
 end
 P_rewired_ratio(n_modes) = 0; P_rewired_FC(n_modes) = 0;
 P_nohomology_ratio(n_modes) = 0; P_nohomology_FC(n_modes) = 0;

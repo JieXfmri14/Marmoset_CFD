@@ -1,9 +1,7 @@
-function [CC_recon_ratio,CC_recon_FC_r]= CC_recon_marmoset_activity(W,X_RS,U)
+function [CC_recon_ratio,CC_recon_FC_r]= CC_recon_marmoset_activity(W,X_RS,U,n_null)
 % (1) assess CC eigenmodes explain brain activity in marmosets
 % (2) compare the accuracy of CC eigenmodes against SC eigenmodes
 
-% set the number of null model
-n_null = 10;
 zX_RS = X_RS;
 
 % % =========================================================================

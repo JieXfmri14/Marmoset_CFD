@@ -1,9 +1,13 @@
+% Uses an eigenmode-based analysis to study how neuronal tracing connectome eigenmodes constrain cortical activity.
 clc
 clear all
 
 % set code folder path
-mypath='E:\Marmoset_CFD-main\'; 
+mypath='E:\BaiduSyncdisk\AMatlab_code\A_RfMRI_Aanlysis\Marmoset_CFD-main\'; 
 addpath(genpath(strcat(mypath,'functions_matlab')))
+
+% set the number of null model
+n_null = 10;
 
 %% Step1: compute and decompose Graph Laplacian 
 [W,U]= GSP_Laplacian(mypath);
@@ -12,7 +16,7 @@ addpath(genpath(strcat(mypath,'functions_matlab')))
 [X_RS,zX_RS,Vlow,Vhigh]= find_filter_cut_off(mypath,U);
 
 %% Step2: the accuracy of the reconstruction the marmoset activity
-[CC_recon_act_marmoset,CC_recon_FC_marmoset]= CC_recon_marmoset_activity(W,X_RS,U);
+[CC_recon_act_marmoset,CC_recon_FC_marmoset]= CC_recon_marmoset_activity(W,X_RS,U,n_null);
 
 %% Step3: analyze graph signal,i.e., filted low- and high-frequency components
 [N_low,N_high,mean_low,mean_high] = GSanalysis(zX_RS,Vhigh,Vlow,U);
@@ -24,6 +28,6 @@ addpath(genpath(strcat(mypath,'functions_matlab')))
 [CFDlog,CFD_thr,CFD_surr] = Calcalate_CFD(zX_RS,U,Vlow,Vhigh,mean_low,mean_high,N_low,N_high);
 
 %% Step6: generalizing of marmoset-derived eigenmodes to human
-[CC_recon_act_human,CC_recon_FC_human]= Generalizing_eigenmodes_human(mypath);
+[CC_recon_act_human,CC_recon_FC_human]= Generalizing_eigenmodes_human(mypath,n_null);
 
 
