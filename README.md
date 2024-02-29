@@ -19,7 +19,7 @@ Some of the MATLAB-based scripts depend on packages developed by others. Copies 
 
 We only provide  the demo dataset (3 subjects) to perform the calculations described in the paper. Original awake marmosets MRI datasets from the [Marmoset Brain Mapping](www.marmosetbrainmapping.org/data.html). Original human rs-fMRI data from HCP the [Human Connectome Project](https://db.humanconnectome.org/). Please consult the link for detailed information about access, licensing, and terms and conditions of usage.
 
-The code for spatial autocorrelation correction can be implemented through the brainSMASH software (https://github.com/murraylab/brainsmash).
+The code for spatial autocorrelation-preserving surrogate brain maps can be implemented through the brainSMASH toolbox (https://github.com/murraylab/brainsmash).
 
 The code for gradient analysis and the Moran spectral randomization can be performed via BrainSpace (http://github.com/MICA-MNI/BrainSpace).
 
