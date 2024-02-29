@@ -3,11 +3,11 @@ clc
 clear all
 
 % set code folder path
-mypath='E:\BaiduSyncdisk\AMatlab_code\A_RfMRI_Aanlysis\Marmoset_CFD-main\'; 
+mypath='E:\Marmoset_CFD-main\'; 
 addpath(genpath(strcat(mypath,'functions_matlab')))
 
 % set the number of null model
-n_null = 10;
+n_null = 1000;
 
 %% Step1: compute and decompose Graph Laplacian 
 [W,U]= GSP_Laplacian(mypath);
@@ -15,10 +15,10 @@ n_null = 10;
 %% project BOLD-fMRI data onto CC eigenmodes, and split low- and high-frequency eigenmodes
 [X_RS,zX_RS,Vlow,Vhigh]= find_filter_cut_off(mypath,U);
 
-%% Step2: the accuracy of the reconstruction the marmoset activity
+%% Step2: the accuracy of the reconstruction of the marmoset activity
 [CC_recon_act_marmoset,CC_recon_FC_marmoset]= CC_recon_marmoset_activity(W,X_RS,U,n_null);
 
-%% Step3: analyze graph signal,i.e., filted low- and high-frequency components
+%% Step3: analyze graph signal,i.e., filtered low- and high-frequency components
 [N_low,N_high,mean_low,mean_high] = GSanalysis(zX_RS,Vhigh,Vlow,U);
 
 %% Step4: system permutation test
