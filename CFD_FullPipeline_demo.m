@@ -2,7 +2,7 @@ clc
 clear all
 
 % set code folder path
-mypath='E:\BaiduSyncdisk\AMatlab_code\A_RfMRI_Aanlysis\Marmoset_CFD_301\'; 
+mypath='E:\Marmoset_CFD-main\'; 
 addpath(genpath(strcat(mypath,'functions_matlab')))
 
 %% Step1: compute and decompose Graph Laplacian 
