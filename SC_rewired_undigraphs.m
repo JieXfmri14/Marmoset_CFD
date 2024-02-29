@@ -1,30 +1,30 @@
-function [null_W_energy, recon_FC_r]= SC_rewired_undigraphs(W,zX_RS,null_graph);
+function [recon_energy, recon_FC_r]= SC_rewired_undigraphs(W,zX_RS,n_null);
 
 % =========================================================================
 %  Generate 1000 random undigraphs£º[W0, R] = null_model_und_sign(W)
 %  further calculate reconstruction accuracy
 % =========================================================================
 n_ROI = size(W,1);
-num_modes = n_ROI;
+n_modes = n_ROI;
 time_point = size(zX_RS,2);
 nsubjs_RS = size(zX_RS,3);
 
-X_all = zeros(num_modes,n_ROI,time_point,nsubjs_RS);
-N_all = zeros(num_modes,n_ROI,nsubjs_RS);
-null_W_energy = zeros(null_graph,num_modes);
-recon_FC_r = zeros(null_graph,num_modes);
-recon_FC_p = zeros(null_graph,num_modes);
+X_all = zeros(n_modes,n_ROI,time_point,nsubjs_RS);
+N_all = zeros(n_modes,n_ROI,nsubjs_RS);
+recon_energy = zeros(n_null,n_modes);
+recon_FC_r = zeros(n_null,n_modes);
+recon_FC_p = zeros(n_null,n_modes);
 
-for null = 1:null_graph
+for null = 1:n_null
     null
     [W_null, R] = null_model_und_sign(W);   
     L = Computer_laplacian_matrix(W_null);
     %% Laplacian Decomposition
-    [U_old,LambdaL] = eig(L);   
-    [LambdaL, IndL]=sort(diag(LambdaL));     
-    U=U_old(:,IndL);
+    [U_old,Lambda] = eig(L);   
+    [Lambda, Ind]=sort(diag(Lambda));     
+    U=U_old(:,Ind);
 
-    for mode= 1:num_modes
+    for mode= 1:n_modes
         for s=1:nsubjs_RS                  
             X_hat(:,:,s)=U'*zX_RS(:,:,s); 
            %% recon activity
@@ -62,7 +62,7 @@ for null = 1:null_graph
     acooss_sub = mean(signal,2);    
     real_energy = mean(acooss_sub);  
         
-    null_W_energy(null,:) = recon_signal_all_null/real_energy; 
+    recon_energy(null,:) = recon_signal_all_null/real_energy; 
 end
 
 

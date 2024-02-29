@@ -21,7 +21,7 @@ for sub =1:nsubjs_RS
     end
 end
 
-% Normalized fMRI timecourses (If all regions have similar amplitude, no need for normalization)
+% Normalized fMRI timecourses (Note that if all regions have similar amplitude, no need for normalization)
 zX_RS=zscore(X_RS,0,2);
 
 % rs-fMRI data projected on the CC eigenmode
@@ -52,7 +52,7 @@ NNL=n_ROI-NN;
 Vlow=zeros(size(U));
 Vhigh=zeros(size(U));
 Vlow(:,1:NN)=U(:,1:NN);                 
-Vhigh(:,NN+1:end)=U(:,NN+1:end);       
+Vhigh(:,NN+1:end)=U(:,NN+1:end);        
 
 % % =========================================================================
 % %  (2) Stability_analysis: divide the CC eigenmodes into low, medium, and high components
