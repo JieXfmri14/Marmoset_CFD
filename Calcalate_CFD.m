@@ -135,12 +135,12 @@ CFD_thr_log =  CC2;
 
 %% Results: the CFD pattern
 Output = [CFD_log,CFD_thr_log,CFD_surr_log];
-xlswrite('Result/CFD_index/CFD_pattern.xlsx',Output,'B2:D56')
+xlswrite('Results/CFD_index/CFD_pattern.xlsx',Output,'B2:D56')
 
 % =========================================================================
 %     6) network-level analysis
 % =========================================================================      
-network_level = xlsread('marmoset_brain_template/marmoset_55Nodes_11Classes.xlsx','sheet1','D2:D56');
+network_level = xlsread('marmoset_brain_template/marmoset_55Nodes_11Classes.xlsx','Sheet1','D2:D56');
 net_num = length(unique(network_level));
 %%% null distribution of 11 classes
 network_mean_CFD = zeros(net_num,1);

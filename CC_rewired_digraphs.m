@@ -18,9 +18,9 @@ for null = 1:null_graph
     null
     [W_null, R] = null_model_dir_sign(W);   
     L= Computer_laplacian_matrix(W_null);
-    [U_old,LambdaL] = eig(L);   
-    [LambdaL, IndL]=sort(diag(LambdaL));     
-    U=U_old(:,IndL);
+    [U_old,Lambda] = eig(L);   
+    [Lambda, Ind]=sort(diag(Lambda));     
+    U=U_old(:,Ind);
 
     for mode= 1:num_modes
         for s=1:nsubjs_RS                  

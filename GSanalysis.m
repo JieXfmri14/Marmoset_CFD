@@ -23,7 +23,7 @@ end
 mean_low=mean(N_low,2); 
 mean_high=mean(N_high,2); 
 
-xlswrite('Result/filtered_low_high_signals/filtered_low_high_frequency_components.xlsx',[mean_low,mean_high],strcat('A2:B',num2str(n_ROI+1)))
+xlswrite('Results/filtered_low_high_signals/filtered_low_high_components.xlsx',[mean_low,mean_high],strcat('A2:B',num2str(n_ROI+1)))
 
 
 end

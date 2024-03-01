@@ -21,10 +21,10 @@ for sub =1:nsubjs_RS
     end
 end
 
-% Normalized fMRI timecourses (If all regions have similar amplitude, no need for normalization)
+% Normalized fMRI timecourses (Note that if all regions have similar amplitude, no need for normalization)
 zX_RS=zscore(X_RS,0,2);
 
-% Average energy spectral density of rs-fMRI data projected on the CC eigenmode
+% rs-fMRI data projected on the CC eigenmode
 clear X_hat_L  
 for s=1:nsubjs_RS
     X_hat_L(:,:,s)=U'*zX_RS(:,:,s);              
@@ -34,12 +34,6 @@ end
 pow=abs(X_hat_L).^2;          
 pow_group = mean(pow,3);      
 ESD=squeeze(mean(pow,2));     
-
-avg=mean(ESD')';             
-stdESD=std(ESD')';           
-upper1=avg+stdESD;           
-lower1=avg-stdESD;
-idx = max(ESD')>0 & min(ESD')>0 & mean(ESD')>0;
 
 % cutoff frequency C: graph spectrum dichotomy approach
 mESD=mean(ESD,2);                        
@@ -52,14 +46,13 @@ while AUC<AUCTOT/2
     i=i+1;
 end
 
+% split CC eigenmodes in low/high frequency
 NN=i-1          
 NNL=n_ROI-NN;   
-
-% split CC eigenmodes in low/high frequency
 Vlow=zeros(size(U));
 Vhigh=zeros(size(U));
-Vlow(:,1:NN)=U(:,1:NN);                 % high frequencies= decoupled 
-Vhigh(:,NN+1:end)=U(:,NN+1:end);        % low frequencies = coupled
+Vlow(:,1:NN)=U(:,1:NN);                 
+Vhigh(:,NN+1:end)=U(:,NN+1:end);        
 
 % % =========================================================================
 % %  (2) Stability_analysis: divide the CC eigenmodes into low, medium, and high components
@@ -70,7 +63,7 @@ Vhigh(:,NN+1:end)=U(:,NN+1:end);        % low frequencies = coupled
 % Vhigh=zeros(size(U));
 % KL = 10;
 % KH = 35;
-% Vlow(:,1:KL)=U(:,1:KL);                      % low-frequency eigenmodes
-% Vhigh(:,end-KH+1:end)=U(:,end-KH+1:end);     % high-frequency eigenmodes
+% Vlow(:,1:KL)=U(:,1:KL);                      
+% Vhigh(:,end-KH+1:end)=U(:,end-KH+1:end);     
 
 end

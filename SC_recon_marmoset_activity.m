@@ -1,6 +1,6 @@
 function [SC_recon_ratio, SC_recon_FC_r,...
-    SC_degree_ratio,SC_degree_FC_r,...
-    SC_signal_ratio,SC_signal_FC_r]= SC_recon_marmoset_activity(zX_RS,n_ROI,null_graph)
+    SC_rewired_ratio,SC_rewired_FC_r,...
+    SC_moran_ratio,SC_moran_FC_r]= SC_recon_marmoset_activity(zX_RS,n_ROI,n_null)
 
 SC = load('Data/marmoset_invivo_SC_Order.mat');
 SC = SC.matrix_sc;
@@ -22,22 +22,22 @@ SC(SC<thr) = 0;
 % =========================================================================
 nsubjs_RS=size(zX_RS,3);
 time_point = size(zX_RS,2);
-num_modes = n_ROI;
-X_all = zeros(num_modes,n_ROI,time_point,nsubjs_RS);
-N_all = zeros(num_modes,n_ROI,nsubjs_RS);
+n_modes = n_ROI;
+X_all = zeros(n_modes,n_ROI,time_point,nsubjs_RS);
+N_all = zeros(n_modes,n_ROI,nsubjs_RS);
 
 %% Normalized graph Laplacian of SC 
 L = Computer_laplacian_matrix(SC);
 
 %% Laplacian Decomposition
-[U_old,LambdaL] = eig(L);                
-[LambdaL, IndL]=sort(diag(LambdaL));     %lambda1<lambda2<lambda3
-U=-U_old(:,IndL);
+[U_old,Lambda] = eig(L);                
+[Lambda, Ind]=sort(diag(Lambda));     %lambda1<lambda2<lambda3
+U=U_old(:,Ind);
 %Verify orthogonality
 orth_U = U*U';
 
 %% reconstruction brain activity(BOLD-fMRI)
-for mode= 1:num_modes
+for mode= 1:n_modes
     for s=1:nsubjs_RS
         % Calculate reconstruction beta coefficients
         X_hat(:,:,s)=U'*zX_RS(:,:,s); 
@@ -63,7 +63,7 @@ real_energy = mean(acooss_sub);
 SC_recon_ratio = recon_signal_all/real_energy;
 
 %% reconstruction FC
-for mode= 1:num_modes
+for mode= 1:n_modes
     for s=1:nsubjs_RS       
        %% FC of empirical signals
         FCpacereal(:,:,s)=corr(zX_RS(:,:,s)');
@@ -84,9 +84,9 @@ end
 % % =========================================================================
 % % Generate 1000 random digraphs (degree-preserving surrogate connectoms) further calculate reconstruction accuracy
 % % =========================================================================
-[SC_degree_ratio, SC_degree_FC_r]= SC_rewired_undigraphs(SC,zX_RS,null_graph);
+[SC_rewired_ratio, SC_rewired_FC_r]= SC_rewired_undigraphs(SC,zX_RS,n_null);
 
 % % =========================================================================
-% % Generate 1000 Moran surrogate signals further calculate reconstruction accuracy
+% % Generate 1000 random Bold-signal further calculate reconstruction accuracy
 % % =========================================================================
-[SC_signal_ratio, SC_signal_FC_r]= CC_moran_signals(U,zX_RS,null_graph);
+[SC_moran_ratio, SC_moran_FC_r]= CC_moran_signals(U,zX_RS,n_null);

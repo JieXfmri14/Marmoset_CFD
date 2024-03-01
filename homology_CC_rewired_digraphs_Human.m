@@ -1,4 +1,4 @@
-function [null_W_energy,recon_FC_r]= homology_CC_rewired_digraphs_Human(W,zX_RS,RX_RS,null_graph)
+function [recon_energy,recon_FC_r]= homology_CC_rewired_digraphs_Human(W,zX_RS,RX_RS,n_null)
 
 % =========================================================================
 %  Generate 1000 random digraphs (degree-preserving surrogate connectoms) further calculate reconstruction accuracy
@@ -10,11 +10,11 @@ nsubjs_RS = size(zX_RS,3);
 
 X_all = zeros(num_modes,n_ROI,time_point,nsubjs_RS);
 N_all = zeros(num_modes,n_ROI,nsubjs_RS);
-null_W_energy = zeros(null_graph,num_modes);
-recon_FC_r = zeros(null_graph,num_modes);
-recon_FC_p = zeros(null_graph,num_modes);
+recon_energy = zeros(n_null,num_modes);
+recon_FC_r = zeros(n_null,num_modes);
+recon_FC_p = zeros(n_null,num_modes);
 
-for null = 1:null_graph
+for null = 1:n_null
     null
     [W_null, R] = null_model_dir_sign(W);   
     L = Computer_laplacian_matrix(W_null);
@@ -45,7 +45,7 @@ for null = 1:null_graph
     
     acooss_sub = mean(signal,2);    
     real_energy = mean(acooss_sub);  
-    null_W_energy(null,:) = recon_signal_all_null/real_energy;
+    recon_energy(null,:) = recon_signal_all_null/real_energy;
     
     %% recon FC
     for mode= 1:num_modes

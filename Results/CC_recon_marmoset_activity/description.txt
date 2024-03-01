@@ -1,0 +1,1 @@
+This folder is used to store results of CC eigenmodes reconstruct spontaneous cortical activity in marmosets.
